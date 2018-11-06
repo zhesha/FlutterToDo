@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:todo/TodoModel.dart';
 
 class HomePage extends StatefulWidget {
+  var state = new HomePageState();
+
   @override
-  State createState() => new HomePageState();
+  State createState() => state;
+
+  void clearDoneTasks() {
+    state.clearDoneTasks();
+  }
 }
 
 class HomePageState extends State<HomePage> {
@@ -63,5 +69,11 @@ class HomePageState extends State<HomePage> {
         ))
       ],
     );
+  }
+
+  void clearDoneTasks() {
+    setState(() {
+      todoList.removeWhere((todo) => todo.isDone);
+    });
   }
 }
