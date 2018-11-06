@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'FilterBar.dart';
 import 'HomePage.dart';
 
 void main() => runApp(new MyApp());
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
               }),
         ]),
         body: homePage,
+        bottomNavigationBar: new FilterBar((index) {
+          homePage.showList(byType: ShowType.values[index]);
+        }),
       ),
     );
   }

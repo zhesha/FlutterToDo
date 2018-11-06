@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo/TodoModel.dart';
 
+enum ShowType { all, onlyNew, done }
+
 class HomePage extends StatefulWidget {
   var state = new HomePageState();
 
@@ -10,10 +12,15 @@ class HomePage extends StatefulWidget {
   void clearDoneTasks() {
     state.clearDoneTasks();
   }
+
+  void showList({ShowType byType}) {
+    state.showList(byType: byType);
+  }
 }
 
 class HomePageState extends State<HomePage> {
   var todoList = List<TodoModel>();
+  var showType = ShowType.all;
   TextField _textField;
 
   TextField _getTextField() {
@@ -36,11 +43,21 @@ class HomePageState extends State<HomePage> {
 
   List<Widget> _todoListView() {
     var result = List<Widget>();
-    for (var index = 0; index < todoList.length * 2 - 1; index += 1) {
+    List<TodoModel> list;
+
+    if (showType == ShowType.onlyNew) {
+      list = todoList.where((entry) => !entry.isDone).toList();
+    } else if (showType == ShowType.done) {
+      list = todoList.where((entry) => entry.isDone).toList();
+    } else {
+      list = todoList;
+    }
+
+    for (var index = 0; index < list.length * 2 - 1; index += 1) {
       if (index.isOdd) {
         result.add(new Divider());
       } else {
-        var todo = todoList.elementAt(index ~/ 2);
+        var todo = list.elementAt(index ~/ 2);
         result.add(new ListTile(
           title: new Text(todo.name),
           leading: new Icon(
@@ -74,6 +91,12 @@ class HomePageState extends State<HomePage> {
   void clearDoneTasks() {
     setState(() {
       todoList.removeWhere((todo) => todo.isDone);
+    });
+  }
+
+  void showList({ShowType byType}) {
+    setState(() {
+      showType = byType;
     });
   }
 }
