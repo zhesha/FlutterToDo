@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/TodoModel.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -6,7 +7,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  var todoList = List<String>();
+  var todoList = List<TodoModel>();
   TextField _textField;
 
   TextField _getTextField() {
@@ -16,7 +17,8 @@ class HomePageState extends State<HomePage> {
         controller: textEditingController,
         onSubmitted: (taskName) {
           setState(() {
-            todoList.add(textEditingController.text);
+            var todo = new TodoModel(name: textEditingController.text);
+            todoList.add(todo);
             textEditingController.clear();
           });
         },
@@ -32,7 +34,17 @@ class HomePageState extends State<HomePage> {
       if (index.isOdd) {
         result.add(new Divider());
       } else {
-        result.add(new Text(todoList.elementAt(index ~/ 2)));
+        var todo = todoList.elementAt(index ~/ 2);
+        result.add(new ListTile(
+          title: new Text(todo.name),
+          leading: new Icon(
+              todo.isDone ? Icons.check_box : Icons.check_box_outline_blank),
+          onTap: () {
+            setState(() {
+              todo.isDone = !todo.isDone;
+            });
+          },
+        ));
       }
     }
     return result;
