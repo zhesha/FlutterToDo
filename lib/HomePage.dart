@@ -4,7 +4,7 @@ import 'package:todo/TodoModel.dart';
 enum ShowType { all, onlyNew, done }
 
 class HomePage extends StatefulWidget {
-  var state = new HomePageState();
+  final state = new HomePageState();
 
   @override
   State createState() => state;

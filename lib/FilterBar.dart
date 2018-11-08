@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class FilterBar extends StatefulWidget {
-  var state;
+  final state;
 
-  FilterBar(Function onChange, {Key key}) : super(key: key) {
-    state = new FilterBarState(onChange);
-  }
+  FilterBar(Function onChange, {Key key})
+      : state = new FilterBarState(onChange),
+        super(key: key);
 
   @override
   State createState() => state;
